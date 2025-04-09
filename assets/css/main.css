@@ -7347,6 +7347,144 @@ input, select, textarea {
 		background-color: #000000;
 	}
 
+
+/* Wrapper Style3*/
+	.wrapper.style3 {	
+		padding: 1.5rem 15rem 4rem;
+		background-color: #eeeeee;
+	}
+
+		.wrapper.style3 > .inner {
+			padding: 9.25rem 7.5rem 7.25rem 7.5rem ;
+			background-color: #ffffff;
+			border-radius: 0.5rem;
+			margin: 0 auto;
+			max-width: 100%;
+			position: relative;
+			width: 64rem;
+			z-index: 1;
+		}
+
+			.wrapper.style3 > .inner.medium {
+				width: 96rem;
+			}
+
+			.wrapper.style3 > .inner.small {
+				width: 64rem;
+			}
+
+		@media screen and (max-width: 1680px) {
+
+			.wrapper.style3 {
+				padding: 4.5rem 10rem;
+			}
+
+				.wrapper.style3 > .inner {
+					padding: 6.75rem 5.5rem 4.75rem 5.5rem ;
+				}
+
+		}
+
+		@media screen and (max-width: 1280px) {
+
+			.wrapper.style3 {
+				padding: 3rem 9rem;
+			}
+
+				.wrapper.style3 > .inner {
+					padding: 6rem 5rem 4rem r3em ;
+				}
+
+		}
+
+		@media screen and (max-width: 980px) {
+
+			.wrapper.style3 {
+				padding: 2rem 5rem;
+			}
+
+				.wrapper.style3 > .inner {
+					padding: 4rem 3.25rem 2rem 3.25rem ;
+				}
+
+		}
+
+		@media screen and (max-width: 736px) {
+
+			.wrapper.style3 {
+				padding:1rem 2.5rem;
+			}
+
+				.wrapper.style3 > .inner {
+					padding: 3rem 2.5rem 1rem 2.5rem ;
+				}
+
+		}
+
+	#wrapper > .wrapper.style3.invert:not(.color1):not(.color2):not(.color3):not(.color4):not(.color5):not(.color6):not(.color7) {
+		background-color: #222222;
+	}
+
+	#wrapper > .wrapper.style3.invert > .inner {
+		background-color: #000000;
+	}
+
+	/* Wrapper Style4*/
+	.wrapper.style4 > .inner {
+		padding: 3rem 1.5rem 2.5rem 1.5rem ;
+		margin: auto auto;
+		max-width: 100%;
+		width: 64rem;
+	}
+
+		.wrapper.style4 > .inner.medium {
+			width: 48rem;
+		}
+
+		.wrapper.style4 > .inner.small {
+			width: 32rem;
+		}
+
+		.wrapper.style4 > .inner.insta {
+			width: 25.5rem;
+			padding: 0rem 1.5rem 2.5rem 1.5rem ;
+
+		}
+
+	@media screen and (max-width: 1680px) {
+
+		.wrapper.style4 > .inner {
+			/* padding: 5rem 2.5rem 3rem 2.5rem ; */
+			padding: 1rem 1rem 1rem 1rem ;
+
+		}
+
+	}
+
+	@media screen and (max-width: 1280px) {
+
+		.wrapper.style4 > .inner {
+			padding: 4rem 4rem 2rem 4rem ;
+		}
+
+	}
+
+	@media screen and (max-width: 980px) {
+
+		.wrapper.style4 > .inner {
+			padding: 2.5rem 1rem 1.5rem 1rem ;
+		}
+
+	}
+
+	@media screen and (max-width: 736px) {
+
+		.wrapper.style4 > .inner {
+			padding: 3rem 2rem 1rem 2rem ;
+		}
+
+	}
+
 /* Items (transitions) */
 
 	.items.onload-fade-in > * > .inner {
@@ -9004,3 +9142,43 @@ input, select, textarea {
 				  height: 45px;
 				}
 			  }
+
+
+			  .iframe-container {
+				position: relative;
+				overflow: hidden;
+				width: 100%;
+				padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+				margin: auto, auto, auto, auto;
+			  }
+			  
+			  /* Then style the iframe to fit in the container div with full height and width */
+			  .responsive-iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				height: 100%;
+			  }
+
+			  
+			  .insta-container {
+				position: relative;
+				overflow: hidden;
+				width: auto;
+				/* padding-top: 177.77%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+				margin: auto, auto, auto, auto;
+			  }
+
+				/* Then style the iframe to fit in the container div with full height and width */
+				.responsive-insta {
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					width: 100%;
+					height: 100%;
+					}

@@ -11,6 +11,36 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<script src="https://code.jquery.com/jquery-latest.js"></script>
+		
+		<script>
+		$(document).ready(function(){
+
+			$( "#submitBtn" ).click(function( event ) {
+			alert('Sending message...');
+				//values
+				var name=document.getElementById('name').value;
+				var email=document.getElementById('email').value;
+				var message=document.getElementById('message').value;
+				var dataString = {"name": name, "email":email, "message":message}
+
+				console.log(dataString);
+
+				$.ajax({
+					type:"post",
+					url:"/assets/php/send_email.php",
+					data: dataString,
+					success: function(html) {
+						$('#feedback').html(html);
+					}
+				});
+				console.log('#feedback');
+			event.preventDefault();
+			});
+		});
+		</script>
+
 	</head>
 	
 	<body class="is-preload">
@@ -38,11 +68,13 @@
 					</section>
 
 				
-				<!-- Seven -->
+				<!-- Contact Form -->
 				<section class="wrapper style1 align-center" id="emailForm">
 					<div class="inner medium">
 						<h2>Get in touch</h2>
-						<form action="send_email.php" method="post">
+						<!-- <form action="assets/php/send_email.php" method="post"> -->
+						<form id="contact" method="POST">
+
 							<div class="fields">
 								<div class="field half">
 									<label for="name">Name</label>
@@ -58,10 +90,13 @@
 								</div>
 							</div>
 							<ul class="actions special">
-								<li><input type="submit" name="submit" id="submit" value="Send Message" /></li>
+								<fieldset>
+									<button name="submit" id="submitBtn">Send Message</button>
+								  </fieldset>
+								<!-- <li><input type="submit" name="submit" id="submit" value="Send Message" /></li> -->
 							</ul>
 						</form>
-
+						<div id="feedback"></div>
 					</div>
 				</section>
 					
@@ -212,27 +247,41 @@
 
 					</section>
 
-					<!-- Six -->
-					<section class="wrapper style1 align-center">
-						<div class="inner">
-							<h2>Interactive Media Showreels</h2>
+					<!-- Youtube Videos -->
+					<section class="wrapper style3 align-center">
+						<h2>Interactive Media Showreels</h2>
+
+						<div class="iframe-container">						
+							<!-- <div class="inner"> -->
 							<!-- Sound Design Reel -->
-							<iframe width="560" height="315" src="https://www.youtube.com/embed/gbz_PGONhPs?si=yqdr2KdS95zOJ4pU"
+							<iframe class="responsive-iframe" width="560" height="315" src="https://www.youtube.com/embed/gbz_PGONhPs?si=yqdr2KdS95zOJ4pU"
 								title="YouTube video player" frameborder="0"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 								referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							<!-- </div>	 -->
 						</div>
 					</section>
 
+					<!-- Guitar Fretboard Generator -->
+					<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="first">
+						<div class="content">
+							<h2>Guitar Fretboard Generator</h2>
+							<p>The Guitar Fretboard Generator is a useful education tool aimed at guitar teachers and students. The tool allows users to explore a digital respresentation of the guitar fretboard, complete with scale builders and image downloader.</p>
+							<ul class="actions stacked">
+								<li><a href="/guitarfretboardgenerator/guitarfretboardgenerator.html" class="button">Try It Now</a></li>
+							</ul>
+						</div>
+						<div class="image">
+							<img src="images/GuitarFretboardGeneratorThumbnail.png" alt="" />
+						</div>
+					</section>
 
+					<!-- Instagram Grid -->
+					<section class="wrapper style4 align-center">
+						<h2 style="padding-top: 5%;">Check Out Some Videos!</h2>
 
-					<!-- Six -->
-					<section class="wrapper style1 align-center">
-						<div class="inner small style= width: 16rem">
+						<div class="inner insta">
 							<!-- Instagram Grid -->
-							<h2>Check Out Some Videos!</h2>
-							<div></div>
-							<div class="inner medium align-center">
 							<blockquote class="instagram-media"
 								data-instgrm-permalink="https://www.instagram.com/thom_swain/?utm_source=ig_embed&amp;utm_campaign=loading"
 								data-instgrm-version="14"
@@ -323,7 +372,6 @@
 								</div>
 							</blockquote>
 							<script async src="//www.instagram.com/embed.js"></script>
-							</div>
 						</div>
 					</section>
 

@@ -1,0 +1,330 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <script src="./main.js" async></script>
+    <script type="module" src="./node_modules/html2canvas/dist/html2canvas.js"></script>
+    
+    <title>Guitar Fretboard Generator</title>
+    <meta charset="UTF-8">
+    <link href="layout.css" rel="stylesheet">
+</head>
+
+
+<html>
+    <div class="fretboardContainer" id="fretboardContainer">
+    <header>
+        <h1 class="title">Guitar Fretboard Generator</h1>
+        <h2 id="scaleName" class="subtitle"></h2>
+    </header>
+    
+    <body onload="generateNotes()">
+    <!-- fretboard image -->
+
+        <div class="fretboard" id="fretboardid">
+            <img src="./images/Guitar24FretOpenStrings.png" class="center" height="50%" width="50%">
+                <div class="lowEString" id="lowEString"></div>
+                <div class="aString" id="aString"></div>
+                <div class="dString" id="dString"></div>  
+                <div class="gString" id="gString"></div>  
+                <div class="bString" id="bString"></div>  
+                <div class="highEString" id="highEString"></div>  
+            </div>
+        </div>
+    </div>
+
+        <!-- <div style="padding-top: 3%"></div> -->
+        <div class="scaleBuilder">
+            <table>
+                <tr>
+                    <th style="width:15%">
+                        <button class = "clearbtn"  onClick = "clearNotes(); resetStringCheckboxes()"> Clear all notes </button>
+                    </th>
+
+            <!-- Clear all notes button -->
+
+            
+            <!-- <div class="scaleBuilderText"> -->
+                    <th style="width: fit-content;">
+                        <!-- Scale Builder -->
+                        <label style="padding-left: 8%;" for="rootNote">Root Note:</label>
+                        <select name="rootNote" id="rootNote">
+                            <option value="c">C</option>
+                            <option value="cs">C#</option>
+                            <option value="db">Db</option>
+                            <option value="d">D</option>
+                            <option value="ds">D#</option>
+                            <option value="eb">Eb</option>
+                            <option value="e">E</option>
+                            <option value="f">F</option>
+                            <option value="fs">F#</option>
+                            <option value="gb">Gb</option>
+                            <option value="g">G</option>
+                            <option value="gs">G#</option>
+                            <option value="ab">Ab</option>
+                            <option value="a">A</option>
+                            <option value="as">A#</option>
+                            <option value="bb">Bb</option>
+                            <option value="b">B</option>
+                        </select>
+
+                        <label style="padding-left: 1%;" for="scaleType">Scale Type:</label>
+                        <select  name="scaleType" id="scaleType">
+                            <option value="'majorScale'">Major</option>
+                            <option value="'minorScale'">Minor</option>
+                            <option value="'majorPent'">Major Pentatonic</option>
+                            <option value="'minorPent'">Minor Pentatonic</option>
+                            <option value="'majorTriad'">Major Triad</option>
+                            <option value="'minorTriad'">Minor Triad</option>
+                            <option value="'ionian'">Ionian</option>
+                            <option value="'dorian'">Dorian</option>
+                            <option value="'phrygian'">Phrygian</option>
+                            <option value="'lydian'">Lydian</option>
+                            <option value="'mixolydian'">Mixolydian</option>
+                            <option value="'aeolian'">Aeolian</option>
+                            <option value="'locrian'">Locrian</option>
+                        </select>
+                        
+                        <button type="button" onclick="showScale(
+                            buildScaleFromType(
+                                document.getElementById('scaleType').value, document.getElementById('rootNote').value, scaleAccidentals[document.getElementById('rootNote').value]), 
+                                document.getElementById('rootNote').value.toUpperCase() + ' ' + scaleNames[document.getElementById('scaleType').value])">
+                                Show Scale
+                            </button>
+                    </th>
+
+                    <th style="width: 15%;">
+                        <!-- Download as PNG button -->
+                            <button class="downloadbtn" type="button" onclick=" downloadImage('fretboardContainer') ">Download PNG</button>
+                    </th>
+                
+                <tr>
+                    <th style="width: 10%;"></th>
+                    <th style="justify-content: center; width: 50%;">
+                        <div class="center">
+                            <label for="scaleNameInput">Scale Name:</label>
+                            <input type="text" id="scaleNameInput" name="scaleNameInput">
+                            <button type="button" onclick=" updateScaleName( document.getElementById('scaleNameInput').value ) ">Update</button>
+                        </div> 
+                    </th>
+                </tr>
+
+            </table>
+        </div>
+
+                
+                
+
+                
+        </div>
+
+        <!-- Major Scales -->
+        <div class="scaleDropdowns">
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Major Scales - Sharps</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'c', 'flat'), 'C Major')">C Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'g', 'sharp'), 'G Major')">G Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'd', 'sharp'), 'D Major')">D Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'a', 'sharp'), 'A Major')">A Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'e', 'sharp'), 'E Major')">E Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'b', 'sharp'), 'B Major')">B Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'fs', 'sharp'), 'F# Major')">F# Major</a>
+                    </div>
+            </div>
+
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Major Scales - Flats</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'c', 'flat'), 'C Major')">C Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'f', 'flat'), 'F Major')">F Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'bb', 'flat'), 'Bb Major',)">Bb Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'eb', 'flat'), 'Eb Major')">Eb Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'ab', 'flat'), 'Ab Major')">Ab Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'db', 'flat'), 'Db Major')">Db Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorScale, 'gb', 'flat'), 'Gb Major')">Gb Major</a>
+                    </div>
+            </div>
+
+            <!-- Minor Pentatonic Scales -->
+            <div class="dropdown">
+                <button class="dropbtn">Minor Pentatonic Scales - Sharps</button>
+                <div class="dropdown-content">
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'a', 'sharp'), 'A Minor Pentatonic')">A Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'e', 'sharp'), 'E Minor Pentatonic')">E Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'b', 'sharp'), 'B Minor Pentatonic')">B Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'fs', 'sharp'), 'F# Minor Pentatonic')">F# Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'cs', 'sharp'), 'C# Minor Pentatonic')">C# Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'gs', 'sharp'), 'G# Minor Pentatonic')">G# Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'ds', 'sharp'), 'D# Minor Pentatonic')">D# Minor Pentatonic</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Minor Pentatonic Scales - Flats</button>
+                <div class="dropdown-content">
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'a', 'flat'), 'A Minor Pentatonic')">A Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'd', 'flat'), 'D Minor Pentatonic')">D Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'g', 'flat'), 'G Minor Pentatonic')">G Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'c', 'flat'), 'C Minor Pentatonic')">C Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'f', 'flat'), 'F Minor Pentatonic')">F Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'bb', 'flat'), 'Bb Minor Pentatonic')">Bb Minor Pentatonic</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(minorPent, 'eb', 'flat'), 'Eb Minor Pentatonic')">Eb Minor Pentatonic</a>
+
+                </div>
+            </div>
+
+            <!-- Major Pentatonic Scales
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Major Pentatonic Scales - Sharps</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'c', 'flat'), 'C Major')">C Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'g', 'sharp'), 'G Major')">G Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'd', 'sharp'), 'D Major')">D Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'a', 'sharp'), 'A Major')">A Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'e', 'sharp'), 'E Major')">E Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'b', 'sharp'), 'B Major')">B Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'fs', 'sharp'), 'F# Major')">F# Major</a>
+                    </div>
+            </div>
+
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Major Pentatonic Scales - Flats</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'c', 'flat'), 'C Major')">C Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'f', 'flat'), 'F Major')">F Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'bb', 'flat'), 'Bb Major',)">Bb Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'eb', 'flat'), 'Eb Major')">Eb Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'ab', 'flat'), 'Ab Major')">Ab Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'db', 'flat'), 'Db Major')">Db Major</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(majorPent, 'gb', 'flat'), 'Gb Major')">Gb Major</a>
+                    </div>
+            </div> -->
+
+            <!-- Major Triads -->
+            <div class="dropdown" style="padding-top: 1%;">
+            <button class="dropbtn">Major Triads - Sharps</button>
+                <div class="dropdown-content">
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'c', 'flat'), 'C Major Triad')">C Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'g', 'sharp'), 'G Major Triad')">G Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'd', 'sharp'), 'D Major Triad')">D Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'a', 'sharp'), 'A Major Triad')">A Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'e', 'sharp'), 'E Major Triad')">E Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'b', 'sharp'), 'B Major Triad')">B Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'fs', 'sharp'), 'F# Major Triad')">F# Major Triad</a>
+                </div>
+            </div>
+
+            <div class="dropdown" style="padding-top: 1%;">
+            <button class="dropbtn">Major Triads - Flats</button>
+                <div class="dropdown-content">
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'c', 'flat'), 'C Major Triad')">C Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'f', 'flat'), 'F Major Triad')">F Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'bb', 'flat'), 'Bb Major Triad',)">Bb Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'eb', 'flat'), 'Eb Major Triad')">Eb Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'ab', 'flat'), 'Ab Major Triad')">Ab Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'db', 'flat'), 'Db Major Triad')">Db Major Triad</a>
+                    <a onClick = "showScale(buildScaleFromIntervals(majorTriad, 'gb', 'flat'), 'Gb Major Triad')">Gb Major Triad</a>
+                </div>
+            </div>
+
+            <!-- Minor Triads -->
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Minor Triads - Sharps</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'a', 'sharp'), 'A Minor Triad')">A Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'e', 'sharp'), 'E Minor Triad')">E Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'b', 'sharp'), 'B Minor Triad')">B Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'fs', 'sharp'), 'F# Minor Triad')">F# Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'cs', 'sharp'), 'C# Minor Triad')">C# Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'gs', 'sharp'), 'G# Minor Triad')">G# Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'ds', 'sharp'), 'D# Minor Triad')">D# Minor Triad</a>
+                    </div>
+            </div>
+
+            <div class="dropdown" style="padding-top: 1%;">
+                <button class="dropbtn">Minor Triads - Flats</button>
+                    <div class="dropdown-content">
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'a', 'flat'), 'A Minor Triad')">A Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'd', 'flat'), 'D Minor Triad')">D Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'g', 'flat'), 'G Minor Triad')">G Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'c', 'flat'), 'C Minor Triad')">C Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'f', 'flat'), 'F Minor Triad')">F Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'bb', 'flat'), 'Bb Minor Triad')">Bb Minor Triad</a>
+                        <a onClick = "showScale(buildScaleFromIntervals(minorTriad, 'eb', 'flat'), 'Eb Minor Triad')">Eb Minor Triad</a>
+
+                    </div>
+            </div>
+    </div>
+
+        <div style="padding-top: 1%;"> </div>
+
+        <div class="stringAndFretInclusions" id="stringAndFretInclusions">
+
+            <!-- Fret Ranges -->
+            <div class="fretRange"> 
+                <label style="padding-left: 1%;" for = "fretRangeLower">Lower Fret Range (0 - 24)</label>
+                <input type="number" id = "fretRangeLower" name = "fretRangeLower" min ="0" max="24" step="1" value="0">
+                
+                <label for = "fretRangeUpper">Upper Fret Range (0 - 24)</label>
+                <input type="number" id = "fretRangeUpper" name = "fretRangeUpper" min =fretRangeLower max="24" step="1" value="24">
+
+                <label for = "limitGString">Reduce G String Range</label>
+                <input type="checkbox" id ="limitGString" name="limitGString">
+            </div>
+
+            <!-- String Inclusions -->
+            <div class="stringInclusions"> 
+                <div style="padding-top: 1%;">
+
+                    <input type="checkbox" id ="includeHighEString" name="includeHighEString" checked>
+                    <label for = "includeHighEString">Include High E String</label>
+                
+                </div>
+
+                <div style="padding-top: 1%; ">
+
+                    <input type="checkbox" id ="includeBString" name="includeBString" checked>
+                    <label for = "includeBString">Include B String</label>
+                
+                </div>
+
+                <div style="padding-top: 1%">
+                    <input type="checkbox" id ="includeGString" name="includeGString" checked>
+                    <label for = "includeGString">Include G String</label>
+                
+                </div>
+
+                <div style="padding-top: 1%">
+                    <input type="checkbox" id ="includeDString" name="includeDString" checked>
+                    <label for = "includeDString">Include D String</label>
+                
+                </div>
+
+                <div style="padding-top: 1%">
+                    <input type="checkbox" id ="includeAString" name="includeAString" checked>
+                    <label for = "includeAString">Include A String</label>
+                
+                </div>
+
+
+                <div style="padding-top: 1%; padding-bottom: 1%;">
+                    <input type="checkbox" id ="includeLowEString" name="includeLowEString" checked>
+                    <label for = "includeLowEString">Include Low E String</label>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="infoBox">
+            <p>Some tips: </p>
+            <p>Hold shift when clicking a note to make it appear red.</p>
+            <p>Click a note twice to respell it's accidental.</p>
+            <p>Use the fret range limitations to display scales in specific positions.</p>
+            <p>Use the 'Reduce G String Range' option to avoid doubleups of notes.</p>
+            <p>Use the string inclusion options to display scales across specific strings.</p>
+        </div>
+          
+    </body>
+
+</html>
